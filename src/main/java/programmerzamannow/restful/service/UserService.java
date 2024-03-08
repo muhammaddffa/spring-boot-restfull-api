@@ -5,9 +5,10 @@ import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 import programmerzamannow.restful.entity.User;
-import programmerzamannow.restful.exeption.ApiException;
 import programmerzamannow.restful.model.RegisterUserRequest;
 import programmerzamannow.restful.repository.UserRepository;
 import programmerzamannow.restful.security.BCrypt;
@@ -33,7 +34,7 @@ public class UserService {
         }
 
         if(userRepository.existsById(request.getUsername())){
-            throw new ApiException("username already registered");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"username already registered");
         }
 
         User user = new User();
