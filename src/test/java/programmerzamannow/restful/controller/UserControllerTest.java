@@ -9,9 +9,11 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import programmerzamannow.restful.entity.User;
 import programmerzamannow.restful.model.RegisterUserRequest;
 import programmerzamannow.restful.model.WebResponse;
 import programmerzamannow.restful.repository.UserRepository;
+import programmerzamannow.restful.security.BCrypt;
 
 import static org.junit.jupiter.api.Assertions.*;
 import  static org.springframework.test.web.servlet.MockMvcBuilder.*;
@@ -40,7 +42,34 @@ class UserControllerTest {
     }
 
     @Test
-    void testRegisterSuccess() throws Exception {
+    void testRegisterBadRequest() throws Exception {
+        RegisterUserRequest request = new RegisterUserRequest();
+        request.setUsername("");
+        request.setPassword("");
+        request.setName("");
+
+        mockMvc.perform(
+                post("/api/users")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request))
+        ).andExpectAll(
+                status().isBadRequest()
+        ).andDo(result -> {
+            WebResponse<String> response = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<>() {
+            });
+
+            assertNotNull(response.getErrors());
+        });
+    }
+
+    void testRegisterDuplicate() throws Exception {
+        User user = new User();
+        user.setUsername("test");
+        user.setPassword(BCrypt.hashpw("rahasia", BCrypt.gensalt()));
+        user.setName("Test");
+        userRepository.save(user);
+
         RegisterUserRequest request = new RegisterUserRequest();
         request.setUsername("test");
         request.setPassword("rahasia");
@@ -52,36 +81,16 @@ class UserControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request))
         ).andExpectAll(
-                status().isOk()
+                status().isBadRequest()
         ).andDo(result -> {
             WebResponse<String> response = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<>() {
             });
 
-            assertEquals("OK", response.getData());
+            assertNotNull(response.getErrors());
         });
     }
 }
 
-//    @Test
-//    void testRegisterBadRequest() throws Exception {
-//        RegisterUserRequest request = new RegisterUserRequest();
-//        request.setUsername("");
-//        request.setPassword("");
-//        request.setName("");
-//
-//        mockMvc.perform(
-//                post("/api/users")
-//                        .accept(MediaType.APPLICATION_JSON)
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content(objectMapper.writeValueAsString(request))
-//        ).andExpectAll(
-//                status().isBadRequest()
-//        ).andDo(result -> {
-//            WebResponse<String> response = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<>() {
-//            });
-//
-//            assertNotNull(response.getErrors());
-//        });
-//    }
-//}
+
+
 
