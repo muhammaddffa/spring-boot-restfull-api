@@ -6,7 +6,7 @@ Endpoint : POST /api/contacts
 
 Request Haader :
 
-- X-API_TOKEN : Token (Mandatory)
+    
 
 Request body :
 

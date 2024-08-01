@@ -64,7 +64,7 @@ Response body (Failed, 401) :
 
 Endpoint Body : GET /api/users/current
 
-Request Haader :
+Request Haader :z
 
 - X-API_TOKEN : Token (Mandatory)
 

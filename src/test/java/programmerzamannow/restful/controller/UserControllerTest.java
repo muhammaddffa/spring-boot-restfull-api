@@ -18,6 +18,7 @@ import programmerzamannow.restful.security.BCrypt;
 import static org.junit.jupiter.api.Assertions.*;
 import  static org.springframework.test.web.servlet.MockMvcBuilder.*;
 import  static org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import  static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import  static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -82,6 +83,22 @@ class UserControllerTest {
                         .content(objectMapper.writeValueAsString(request))
         ).andExpectAll(
                 status().isBadRequest()
+        ).andDo(result -> {
+            WebResponse<String> response = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<>() {
+            });
+
+            assertNotNull(response.getErrors());
+        });
+    }
+
+    @Test
+    void getUserUnauthorized() throws Exception{
+        mockMvc.perform(
+                get("/api/users/current")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .header("X-API-TOKEN", "notFound")
+        ).andExpectAll(
+                status().isUnauthorized()
         ).andDo(result -> {
             WebResponse<String> response = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<>() {
             });

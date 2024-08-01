@@ -4,11 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 import programmerzamannow.restful.model.LoginUserRequest;
 import programmerzamannow.restful.model.TokenResponse;
 import programmerzamannow.restful.model.WebResponse;
 import programmerzamannow.restful.service.AuthService;
 
+
+@RestController
 public class AuthController {
 
     @Autowired
@@ -21,6 +24,6 @@ public class AuthController {
     )
     private WebResponse<TokenResponse> login(@RequestBody LoginUserRequest request){
         TokenResponse tokenResponse = authService.login(request);
-        return WebResponse.<TokenResponse>builder().data(tokenResponse).build();
-    }
+        return WebResponse.<TokenResponse>builder()
+                .data(tokenResponse).build();    }
 }

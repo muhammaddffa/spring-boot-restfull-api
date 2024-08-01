@@ -19,7 +19,7 @@ public class ValidationService {
     public void validate(Object request){
         Set<ConstraintViolation<Object>> constraintViolations = validator.validate(request);
         if(constraintViolations.size() != 0) {
-            //eroor
+            //error
             throw new ConstraintViolationException(constraintViolations);
         }
     }
