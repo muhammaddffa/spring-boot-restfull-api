@@ -25,5 +25,6 @@ public class AuthController {
     private WebResponse<TokenResponse> login(@RequestBody LoginUserRequest request){
         TokenResponse tokenResponse = authService.login(request);
         return WebResponse.<TokenResponse>builder()
-                .data(tokenResponse).build();    }
+                .data(tokenResponse).build();
+    }
 }
