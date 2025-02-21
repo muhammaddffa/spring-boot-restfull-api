@@ -52,68 +52,137 @@ Response Body (Failed) :
 Endpoint :
 
 
-Request Header :
+Request Header : PUT /api/contacts/{idContacts}/addresses/{idAddress}
 
 - X-API_TOKEN : Token (Mandatory)
 
 Request Body :
 
+```json
+{
+  "street": "Jalan apa",
+  "city": "Kota",
+  "province": "Provinsi",
+  "country": "Negara",
+  "postalCode": "123232"
+}
+```
 
 Response Body (Success) :
 
+```json
+{
+  "data": {
+    "id": "randomstring",
+    "street": "Jalan apa",
+    "city": "Kota",
+    "province": "Provinsi",
+    "country": "Negara",
+    "postalCode": "123232"
+  }
+}
+```
 
-Response Body (Faile) :
 
+Response Body (Failed) :
+
+```json
+{
+  "errorrs": "Contact is not found",
+  
+}
+```
 
 ## Get Address
 
-Endpoint :
+Endpoint : GET /api/contacts/{idContacts}/addresses/{idAddress}
 
 
 Request Header :
 
 - X-API_TOKEN : Token (Mandatory)
 
-Request Body :
-
-
 Response Body (Success) :
 
+```json
+{
+  "data": {
+    "id": "randomstring",
+    "street": "Jalan apa",
+    "city": "Kota",
+    "province": "Provinsi",
+    "country": "Negara",
+    "postalCode": "123232"
+  }
+}
+```
 
-Response Body (Faile) :
+Response Body (Failed) :
 
+```json
+{
+  "errorrs": "Address is not found",
+  
+}
+```
 
 ## Remove Address
 
-Endpoint :
+Endpoint : DELETE /api/contacts/{idContacts}/addresses/{idAddress}
 
 
 Request Header :
 
 - X-API_TOKEN : Token (Mandatory)
 
-Request Body :
-
-
 Response Body (Success) :
 
+```json
+{
+  "data": "OK"
+}
+```
 
-Response Body (Faile) :
+Response Body (Failed) :
 
+```json
+{
+  "errorrs": "Address is not found",
+  
+}
+```
 
 ## List Address
 
-Endpoint :
-
+Endpoint : GET /api/contacts/{idContacts}/addresses
 
 Request Header :
 
 - X-API_TOKEN : Token (Mandatory)
 
-Request Body :
-
-
 Response Body (Success) :
 
+```json
+{
+  "data": [
+    {
+      "id": "randomstring",
+      "street": "Jalan apa",
+      "city": "Kota",
+      "province": "Provinsi",
+      "country": "Negara",
+      "postalCode": "123232"
+    }
+  ]
+}
+```
 
-Response Body (Faile) : 
+Response Body (Failed) : 
+
+```json
+{
+  "errorrs": "Contact is not found",
+  
+}
+```
+```

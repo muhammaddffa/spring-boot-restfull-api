@@ -65,6 +65,7 @@ class UserControllerTest {
         });
     }
 
+    @Test
     void testRegisterDuplicate() throws Exception {
         User user = new User();
         user.setUsername("test");
@@ -130,7 +131,7 @@ class UserControllerTest {
         user.setPassword(BCrypt.hashpw("rahasia", BCrypt.gensalt()));
         user.setName("Test");
         user.setToken("test");
-        user.setTokenExpiredAt(System.currentTimeMillis() + 1000000000);
+        user.setTokenExpiredAt(System.currentTimeMillis() + 1000000000L);
         userRepository.save(user);
         mockMvc.perform(
                 get("/api/users/current")
@@ -155,7 +156,7 @@ class UserControllerTest {
         user.setPassword(BCrypt.hashpw("rahasia", BCrypt.gensalt()));
         user.setName("Test");
         user.setToken("test");
-        user.setTokenExpiredAt(System.currentTimeMillis() - 10000000);
+        user.setTokenExpiredAt(System.currentTimeMillis() - 10000000L);
         userRepository.save(user);
         mockMvc.perform(
                 get("/api/users/current")
