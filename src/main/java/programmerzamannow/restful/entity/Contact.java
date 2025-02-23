@@ -35,6 +35,6 @@ public class Contact {
     private User user;
 
     @OneToMany(mappedBy = "contact")
-    private List<Addres> addresses;
+    private List<Address> addresses;
 
 }
